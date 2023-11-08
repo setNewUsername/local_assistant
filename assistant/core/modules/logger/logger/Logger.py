@@ -99,7 +99,7 @@ class Logger:
         date = datetime.now().strftime("%H:%M:%S")
         if self.logFilesDescriptors[logFileName]:
             self.logFilesDescriptors[logFileName].write(
-                f'{collerArgsStr} {date} - {logText}\n')
+                f'{date} {collerArgsStr} - {logText}\n')
         self.logToConsole(logText,
                           coller=coller,
                           functionName=functionName,
@@ -118,7 +118,7 @@ class Logger:
         collerArgsStr = f'{coller}.{functionName}({args}, {kwargs})'
         date = datetime.now().strftime("%H:%M:%S")
         if self.liveLog:
-            print(f'{collerArgsStr} {date} - {logText}')
+            print(f'{date} {collerArgsStr} - {logText}')
     # writes data to console
 
 

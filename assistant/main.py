@@ -8,9 +8,9 @@ from core.modules.path_resolver.PathResolver.PathResolver import PathResolver
 
 from core.modules.logger.logFilesEnum import LogFiles
 
-from core.modules.logger.logFuncs import LogClient
-from core.modules.logger.logFuncs import logMethodToFile
-from core.modules.logger.logFuncs import logMethodToConsole
+from core.modules.configurationController.configurationController.configurationController import ConfigController
+
+from core.modules.domainController.domainController.domainController import SpeechDomainsController
 
 # init path resolver
 pathResolver = PathResolver()
@@ -22,27 +22,58 @@ print(logger.logDirPath)
 print(logger.checkLogFolderState())
 logger.setupCommonLogFile()
 logger.registerLogFile(LogFiles.TEST_LOG_FILE)
+logger.registerLogFile(LogFiles.CONFIGURATION_LOG_FILE)
+logger.registerLogFile(LogFiles.DOMAIN_CONTROLLER_LOG_FILE)
 # init logger
 
+# init config controller
+confCont = ConfigController('config.json',
+                            pathResolver.getConfigsPath(),
+                            LogFiles.CONFIGURATION_LOG_FILE)
+if not confCont.checkConfigFile():
+    confCont.recreateConfigFile()
+confCont.setDefaultConfigIfEmpty()
+# init config controller
 
-class TestClass(LogClient):
-
-    def __init__(self, logFile) -> None:
-        super().__init__(logFile)
-
-    @logMethodToFile('hello log to file')
-    def testMethodToFile(self, phrase):
-        print(phrase)
-
-    @logMethodToConsole('hello log to console')
-    def testMethodToConsole(self, phrase):
-        print(phrase)
-
-
-tst = TestClass(LogFiles.COMMON_LOG_FILE)
-
-tst.testMethodToFile('hello')
-tst.testMethodToConsole('hello')
+# init domains controller
+domCntr = SpeechDomainsController(LogFiles.DOMAIN_CONTROLLER_LOG_FILE)
+testDomain = {
+    'domain_word': 'test',
+    'parent_dom_uuid': '111',
+    'domain_uuid': '111',
+    'command_uuid': 'none'
+}
+testDomain0 = {
+    'domain_word': 'test0',
+    'parent_dom_uuid': '111',
+    'domain_uuid': '110',
+    'command_uuid': 'none'
+}
+testDomain1 = {
+    'domain_word': 'test1',
+    'parent_dom_uuid': '111',
+    'domain_uuid': '112',
+    'command_uuid': 'none'
+}
+testDomain11 = {
+    'domain_word': 'test11',
+    'parent_dom_uuid': '112',
+    'domain_uuid': '113',
+    'command_uuid': 'none'
+}
+testDomain12 = {
+    'domain_word': 'test12',
+    'parent_dom_uuid': '112',
+    'domain_uuid': '114',
+    'command_uuid': 'none'
+}
+domCntr.setRootDomain(testDomain)
+domCntr.addDomain(testDomain1)
+domCntr.addDomain(testDomain11)
+domCntr.addDomain(testDomain12)
+domCntr.addDomain(testDomain0)
+print(domCntr.findDomainCommandBySpeechStr('test_test0'))
+# init domains controller
 
 logger.unregisterLogFiles()
 logger.closeCommonLogFile()
