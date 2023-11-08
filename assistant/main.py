@@ -12,6 +12,13 @@ from core.modules.configurationController.configurationController.configurationC
 
 from core.modules.domainController.domainController.domainController import SpeechDomainsController
 
+from core.modules.commandsController.commands.callProgrammCommand import CallProgrammCommand
+from core.modules.commandsController.commands.systemCommand import SysCommand
+
+from core.modules.commandsController.commands.commandsEnum import CommandTypes
+
+from core.modules.commandsController.commandsController.commandsController import CommandController
+
 # init path resolver
 pathResolver = PathResolver()
 # init path resolver
@@ -24,6 +31,7 @@ logger.setupCommonLogFile()
 logger.registerLogFile(LogFiles.TEST_LOG_FILE)
 logger.registerLogFile(LogFiles.CONFIGURATION_LOG_FILE)
 logger.registerLogFile(LogFiles.DOMAIN_CONTROLLER_LOG_FILE)
+logger.registerLogFile(LogFiles.COMMANDS_CONTROLLER_LOG_FILE)
 # init logger
 
 # init config controller
@@ -72,8 +80,38 @@ domCntr.addDomain(testDomain1)
 domCntr.addDomain(testDomain11)
 domCntr.addDomain(testDomain12)
 domCntr.addDomain(testDomain0)
-print(domCntr.findDomainCommandBySpeechStr('test_test0'))
+# print(domCntr.findDomainCommandBySpeechStr('test_test0'))
 # init domains controller
+
+# init command controller
+
+cmdCtrl = CommandController(LogFiles.COMMANDS_CONTROLLER_LOG_FILE)
+
+cmd1 = {
+    'uuid': 'id1',
+    'type': 'call_prog',
+    'prog_path': 'notepad.exe',
+    'prog_args': ['C:\\Users\\ANDMASL\\Desktop\\test.txt']
+}
+
+cmd2 = {
+    'uuid': 'id2',
+    'type': 'sys_command',
+    'sys_command': 'del /f C:\\Users\\ANDMASL\\Desktop\\test.txt'
+}
+
+cmdCtrl.addCommand(cmd1)
+cmdCtrl.addCommand(cmd2)
+
+# cmdCtrl.callCommandByUuid('id1')
+# cmdCtrl.callCommandByUuid('id2')
+
+confCont.updateDomainsData(domCntr.serializeDomains())
+confCont.updateCommandsData(cmdCtrl.serializeCommands())
+
+confCont.writeDataToConfigFile()
+
+# init command controller
 
 logger.unregisterLogFiles()
 logger.closeCommonLogFile()

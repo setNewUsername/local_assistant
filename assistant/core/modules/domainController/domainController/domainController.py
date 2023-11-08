@@ -60,20 +60,20 @@ class SpeechDomainsController(LogClient):
 
     # returns dict of all domains fields
     # adds command uuid to result
-    def serializeDomains(self) -> dict:
-        result: dict = {'domains': []}
+    def serializeDomains(self) -> list:
+        result: list = []
 
         rootData = self.rootDomain.serialize()
         rootData['command_uuid'] = self.speechDomainsCommandIdMap[self.rootDomain.domainUuid]
 
-        result['domains'].append(rootData)
+        result.append(rootData)
 
         for domainId in self.speechDomainsIdMap.keys():
             if domainId != self.rootDomain.domainUuid:
                 domData = self.speechDomainsIdMap[domainId].serialize()
                 domData['command_uuid'] = self.speechDomainsCommandIdMap[domainId]
 
-                result['domains'].append(domData)
+                result.append(domData)
 
         return result
     # returns dict of all domains fields

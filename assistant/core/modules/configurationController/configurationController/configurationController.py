@@ -62,11 +62,12 @@ class ConfigController(LogClient):
             try:
                 cfgData = json.load(file)
             except Exception as e:
-                e
+                self.innerLogToFile(f'error while loading JSON {e}')
                 self.configData = Configurations.DEFAULT_CONFIG.value
                 self.writeDataToConfigFile()
             else:
                 if not self.checkConfigFileLayout(cfgData):
+                    self.innerLogToFile('corrupted config layout, recreate')
                     self.configData = Configurations.DEFAULT_CONFIG.value
                     self.writeDataToConfigFile()
     # creates default config file layout if it is empty file
@@ -96,7 +97,7 @@ class ConfigController(LogClient):
     # replaces commands data in configData
 
     # returns commands data from configData
-    def getComandsData(self) -> dict[str, str]:
+    def getComandsData(self) -> list:
         return self.configData['commands']
     # returns commands data from configData
 
@@ -107,7 +108,7 @@ class ConfigController(LogClient):
     # replaces domains data in configData
 
     # returns domains data from configData
-    def getDomainsData(self) -> dict[str, str]:
+    def getDomainsData(self) -> list:
         return self.configData['domains']
     # returns domains data from configData
 

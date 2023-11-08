@@ -6,3 +6,4 @@ class LogFiles(Enum):
     TEST_LOG_FILE = 'test_log.log'
     CONFIGURATION_LOG_FILE = 'config_log.log'
     DOMAIN_CONTROLLER_LOG_FILE = 'dom_cntr_log.log'
+    COMMANDS_CONTROLLER_LOG_FILE = 'com_cntr_log.log'
