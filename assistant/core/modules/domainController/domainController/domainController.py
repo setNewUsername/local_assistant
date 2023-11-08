@@ -36,6 +36,15 @@ class SpeechDomainsController(LogClient):
         return SpeechDomain(domainWord, domainUuid, parentDomainUuid)
     # returns object of domain
 
+    # adds domains from list
+    @logMethodToFile('adding domains from list')
+    def addDomains(self, domainsList: list) -> None:
+        print(domainsList)
+        self.setRootDomain(domainsList[0])
+        for domIndex in range(1, len(domainsList), 1):
+            self.addDomain(domainsList[domIndex])
+    # adds domains from list
+
     # adds new domain to dom tree,
     # speechDomainsIdMap and speechDomainsCommandIdMap
     @logMethodToFile('adding new domain to dom tree')
