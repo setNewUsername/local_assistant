@@ -20,6 +20,7 @@ class ConfigController(LogClient):
 
     def __init__(self, cfgFileName: str, cfgDirPath: str, logFile) -> None:
         super().__init__(logFile)
+        self.loggerRegister()
         self.configurationFileName = cfgFileName
         self.confgigurationDirPath = cfgDirPath
         self.configData = {}

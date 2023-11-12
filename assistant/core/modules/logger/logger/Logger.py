@@ -100,6 +100,9 @@ class Logger:
         if self.logFilesDescriptors[logFileName]:
             self.logFilesDescriptors[logFileName].write(
                 f'{date} {collerArgsStr} - {logText}\n')
+        self.commonLogFileDescriptor.write(
+            f'{date} {collerArgsStr} - {logText}\n')
+
         self.logToConsole(logText,
                           coller=coller,
                           functionName=functionName,

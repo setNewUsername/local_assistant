@@ -16,6 +16,7 @@ class SpeechDomainsController(LogClient):
         super().__init__(logFile)
         self.speechDomainsIdMap = {}
         self.speechDomainsCommandIdMap = {}
+        self.loggerRegister()
 
     # sets root domain of dom tree
     @logMethodToFile('setting root domain')

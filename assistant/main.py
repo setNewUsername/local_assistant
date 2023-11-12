@@ -27,13 +27,7 @@ pathResolver = PathResolver()
 
 # init logger
 logger.setCommonLogDirPath(pathResolver.getLogsPath())
-print(logger.logDirPath)
-print(logger.checkLogFolderState())
 logger.setupCommonLogFile()
-logger.registerLogFile(LogFiles.TEST_LOG_FILE)
-logger.registerLogFile(LogFiles.CONFIGURATION_LOG_FILE)
-logger.registerLogFile(LogFiles.DOMAIN_CONTROLLER_LOG_FILE)
-logger.registerLogFile(LogFiles.COMMANDS_CONTROLLER_LOG_FILE)
 # init logger
 
 # init config controller

@@ -69,6 +69,9 @@ class LogClient:
     def __init__(self, lgFile) -> None:
         self.logFile = lgFile
 
+    def loggerRegister(self) -> None:
+        logger.registerLogFile(self.logFile)
+
     # returns caller from method.__str__()
     # example: <function TestClass.testMethod at 0x0000021B65D5E340>
     # returns: TestClass

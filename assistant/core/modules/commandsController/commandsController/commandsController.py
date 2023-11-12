@@ -12,6 +12,7 @@ class CommandController(LogClient):
 
     def __init__(self, logFile) -> None:
         super().__init__(logFile)
+        self.loggerRegister()
         self.commands = {}
 
     # adds commands from list
