@@ -12,14 +12,11 @@ from core.modules.configurationController.configurationController.configurationC
 
 from core.modules.domainController.domainController.domainController import SpeechDomainsController
 
-from core.modules.commandsController.commands.callProgrammCommand import CallProgrammCommand
-from core.modules.commandsController.commands.systemCommand import SysCommand
-
-from core.modules.commandsController.commands.commandsEnum import CommandTypes
-
 from core.modules.commandsController.commandsController.commandsController import CommandController
 
 from core.modules.speechController.speechPreprocessor.speechPreprocessor import SpeechPreprocessor
+
+from core.modules.speechController.speechController.speechController import SpeechController
 
 # init path resolver
 pathResolver = PathResolver()
@@ -54,7 +51,21 @@ cmdCtrl.addCommands(confCont.getComandsData())
 spPrep = SpeechPreprocessor(domCntr.getDomainsBatches())
 # init speech preprocessor
 
-print(domCntr.findDomainCommandBySpeechStr(spPrep.processSpeech('test test1 testb testb')))
+# print(domCntr.findDomainCommandBySpeechStr(spPrep.processSpeech('test test1 testb testb')))
+
+spCntr = SpeechController(
+    LogFiles.SPEECH_CONTROLLER_LOG_FILE,
+    spPrep,
+    domCntr,
+    cmdCtrl
+)
+
+spCntr.setDictFile(confCont.getDictFile())
+spCntr.setGrammarFile(confCont.getGrammarFile())
+spCntr.setModelFiles(confCont.getModelFiles())
+spCntr.setLang(confCont.getLanguageModel())
+
+spCntr.startListening()
 
 logger.unregisterLogFiles()
 logger.closeCommonLogFile()

@@ -7,3 +7,4 @@ class LogFiles(Enum):
     CONFIGURATION_LOG_FILE = 'config_log.log'
     DOMAIN_CONTROLLER_LOG_FILE = 'dom_cntr_log.log'
     COMMANDS_CONTROLLER_LOG_FILE = 'com_cntr_log.log'
+    SPEECH_CONTROLLER_LOG_FILE = 'speech_log.log'
