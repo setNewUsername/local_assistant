@@ -108,9 +108,23 @@ class SpeechDomainsController(LogClient):
         result = None
         speechTokens = spStr.split('_')
 
+        for tokIndex in range(len(speechTokens)):
+            speechTokens[tokIndex] = speechTokens[tokIndex].replace('"', '')
+
+        print(speechTokens)
+
         result = self.checkDomainWord(self.rootDomain.domainUuid,
                                       speechTokens,
                                       0)
 
         return result
     # starts speech str sequence process
+
+    def getDomainsBatches(self) -> list[str]:
+        result = []
+
+        for domainKey in self.speechDomainsIdMap:
+            if self.speechDomainsIdMap[domainKey].word.find('+') != -1:
+                result.append(self.speechDomainsIdMap[domainKey].word)
+
+        return result

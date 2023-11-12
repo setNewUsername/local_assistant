@@ -9,7 +9,7 @@ class SpeechDomain:
                  word: str,
                  domainUuid: str,
                  parentDomainUuid: str) -> None:
-        self.word = word
+        self.word = word.replace(' ', '+')
         self.domainUuid = domainUuid
         self.parentDomainUuid = parentDomainUuid
 

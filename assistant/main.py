@@ -19,6 +19,8 @@ from core.modules.commandsController.commands.commandsEnum import CommandTypes
 
 from core.modules.commandsController.commandsController.commandsController import CommandController
 
+from core.modules.speechController.speechPreprocessor.speechPreprocessor import SpeechPreprocessor
+
 # init path resolver
 pathResolver = PathResolver()
 # init path resolver
@@ -47,73 +49,18 @@ confCont.readDataFromConfigFile()
 # init domains controller
 domCntr = SpeechDomainsController(LogFiles.DOMAIN_CONTROLLER_LOG_FILE)
 domCntr.addDomains(confCont.getDomainsData())
-# testDomain = {
-#     'domain_word': 'test',
-#     'parent_dom_uuid': '111',
-#     'domain_uuid': '111',
-#     'command_uuid': 'none'
-# }
-# testDomain0 = {
-#     'domain_word': 'test0',
-#     'parent_dom_uuid': '111',
-#     'domain_uuid': '110',
-#     'command_uuid': 'none'
-# }
-# testDomain1 = {
-#     'domain_word': 'test1',
-#     'parent_dom_uuid': '111',
-#     'domain_uuid': '112',
-#     'command_uuid': 'none'
-# }
-# testDomain11 = {
-#     'domain_word': 'test11',
-#     'parent_dom_uuid': '112',
-#     'domain_uuid': '113',
-#     'command_uuid': 'none'
-# }
-# testDomain12 = {
-#     'domain_word': 'test12',
-#     'parent_dom_uuid': '112',
-#     'domain_uuid': '114',
-#     'command_uuid': 'none'
-# }
-# domCntr.setRootDomain(testDomain)
-# domCntr.addDomain(testDomain1)
-# domCntr.addDomain(testDomain11)
-# domCntr.addDomain(testDomain12)
-# domCntr.addDomain(testDomain0)
-# print(domCntr.findDomainCommandBySpeechStr('test_test0'))
 # init domains controller
 
 # init command controller
-
 cmdCtrl = CommandController(LogFiles.COMMANDS_CONTROLLER_LOG_FILE)
 cmdCtrl.addCommands(confCont.getComandsData())
-# cmd1 = {
-#     'uuid': 'id1',
-#     'type': 'call_prog',
-#     'prog_path': 'notepad.exe',
-#     'prog_args': ['C:\\Users\\ANDMASL\\Desktop\\test.txt']
-# }
-
-# cmd2 = {
-#     'uuid': 'id2',
-#     'type': 'sys_command',
-#     'sys_command': 'del /f C:\\Users\\ANDMASL\\Desktop\\test.txt'
-# }
-
-# cmdCtrl.addCommand(cmd1)
-# cmdCtrl.addCommand(cmd2)
-
-# cmdCtrl.callCommandByUuid('id1')
-# cmdCtrl.callCommandByUuid('id2')
-
-# confCont.updateDomainsData(domCntr.serializeDomains())
-# confCont.updateCommandsData(cmdCtrl.serializeCommands())
-
-# confCont.writeDataToConfigFile()
-
 # init command controller
+
+# init speech preprocessor
+spPrep = SpeechPreprocessor(domCntr.getDomainsBatches())
+# init speech preprocessor
+
+print(domCntr.findDomainCommandBySpeechStr(spPrep.processSpeech('test test1 testb testb')))
 
 logger.unregisterLogFiles()
 logger.closeCommonLogFile()
