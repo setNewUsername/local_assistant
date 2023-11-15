@@ -40,7 +40,6 @@ class SpeechDomainsController(LogClient):
     # adds domains from list
     @logMethodToFile('adding domains from list')
     def addDomains(self, domainsList: list) -> None:
-        print(domainsList)
         self.setRootDomain(domainsList[0])
         for domIndex in range(1, len(domainsList), 1):
             self.addDomain(domainsList[domIndex])
@@ -62,7 +61,8 @@ class SpeechDomainsController(LogClient):
             self.speechDomainsCommandIdMap[newDomain.domainUuid] = domainData['command_uuid']
 
             parentDom = self.speechDomainsIdMap[newDomain.parentDomainUuid]
-            parentDom.addChildDomain(newDomain.domainUuid)
+            parentDom.addChildDomain(newDomain.domainUuid,
+                                     newChildPrt=newDomain)
         else:
             self.innerLogToFile(f'parent not found {newDomain}')
     # adds new domain to dom tree,
@@ -128,4 +128,11 @@ class SpeechDomainsController(LogClient):
             if self.speechDomainsIdMap[domainKey].word.find('+') != -1:
                 result.append(self.speechDomainsIdMap[domainKey].word)
 
+        return result
+
+    def getWordList(self) -> list[str]:
+        result = []
+        for domUuid in self.speechDomainsIdMap.keys():
+            word = self.speechDomainsIdMap[domUuid].word
+            result += word.split('+')
         return result

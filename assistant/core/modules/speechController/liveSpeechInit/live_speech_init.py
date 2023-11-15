@@ -25,4 +25,4 @@ def startProcessSpeech(speech, handleFunction):
     print("Say something!")
 
     for phrase in speech:
-        handleFunction(phrase)
+        handleFunction(str(phrase))

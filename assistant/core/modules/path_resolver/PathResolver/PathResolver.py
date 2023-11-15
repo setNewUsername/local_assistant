@@ -1,4 +1,5 @@
 import os
+from pocketsphinx import get_model_path
 
 
 class PathResolver:
@@ -54,3 +55,20 @@ class PathResolver:
     def getConfigsPath(self) -> str:
         return os.path.join(self.rootAssistantFolderPath,
                             self.configFolderName)
+
+    # returns full path of 3d_parth dir
+    # example: root dir -> D:\prj\local_projects\local_assistant\assistant\
+    # result: D:\prj\local_projects\local_assistant\3d_party
+    def get3dParthPath(self) -> str:
+        return os.path.join(
+            self.rootAssistantFolderPath.removesuffix('assistant'),
+            '3d_party')
+
+    def getModelDictDir(self) -> str:
+        return get_model_path()
+
+    def getGrammarFileDir(self) -> str:
+        return get_model_path()
+
+    def getModelPath(self) -> str:
+        return get_model_path()

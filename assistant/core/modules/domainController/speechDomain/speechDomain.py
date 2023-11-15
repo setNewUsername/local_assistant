@@ -2,6 +2,7 @@ class SpeechDomain:
 
     word: str = None
     childrenDomains: list[str] = None
+    childrenDomainsPtrs: list = None
     parentDomainUuid: str = None
     domainUuid: str = None
 
@@ -13,10 +14,12 @@ class SpeechDomain:
         self.domainUuid = domainUuid
         self.parentDomainUuid = parentDomainUuid
 
+        self.childrenDomainsPtrs = []
         self.childrenDomains = []
 
-    def addChildDomain(self, newChildUuid: str) -> None:
+    def addChildDomain(self, newChildUuid: str, newChildPrt=None) -> None:
         self.childrenDomains.append(newChildUuid)
+        self.childrenDomainsPtrs.append(newChildPrt)
 
     def checkChild(self, childToCheck: str) -> bool:
         return childToCheck in self.childrenDomains

@@ -56,7 +56,7 @@ def logInnerLogToFile(function):
         funcName = self.getMethodName(function.__str__())
         logger.logToLogFile(self.logFile,
                             function(self, *args),
-                            coller=self.getCaller(function.__str__()),
+                            coller=self.caller,
                             functionName=funcName)
         return function(self, *args, **kwargs)
     return funcCall
@@ -65,11 +65,13 @@ def logInnerLogToFile(function):
 # class used to store logFile name and methods for method.__str__() transform
 class LogClient:
     logFile: LogFiles = LogFiles.COMMON_LOG_FILE
+    caller: str = None
 
     def __init__(self, lgFile) -> None:
         self.logFile = lgFile
 
     def loggerRegister(self) -> None:
+        self.caller = self.__class__.__name__
         logger.registerLogFile(self.logFile)
 
     # returns caller from method.__str__()

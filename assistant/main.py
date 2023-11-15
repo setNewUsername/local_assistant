@@ -18,6 +18,9 @@ from core.modules.speechController.speechPreprocessor.speechPreprocessor import 
 
 from core.modules.speechController.speechController.speechController import SpeechController
 
+from core.modules.utils.text2dictUtil import Text2DictUtil
+from core.modules.utils.grammarGenerator import GarammarGenerator
+
 # init path resolver
 pathResolver = PathResolver()
 # init path resolver
@@ -38,8 +41,36 @@ confCont.readDataFromConfigFile()
 # init config controller
 
 # init domains controller
+domains = [
+    {'domain_word': 'компьютер',
+     'parent_dom_uuid': 'none',
+     'domain_uuid': '110',
+     'command_uuid': 'none'
+     },
+    {'domain_word': 'скажи',
+     'parent_dom_uuid': '110',
+     'domain_uuid': '111',
+     'command_uuid': 'none'
+    },
+    {'domain_word': 'привет',
+     'parent_dom_uuid': '111',
+     'domain_uuid': '112',
+     'command_uuid': 'none'
+    },
+    {'domain_word': 'пока',
+     'parent_dom_uuid': '111',
+     'domain_uuid': '113',
+     'command_uuid': 'none'
+    },
+    {'domain_word': 'как дела',
+     'parent_dom_uuid': '111',
+     'domain_uuid': '114',
+     'command_uuid': 'none'
+    },
+]
 domCntr = SpeechDomainsController(LogFiles.DOMAIN_CONTROLLER_LOG_FILE)
-domCntr.addDomains(confCont.getDomainsData())
+print(confCont.getDomainsData())
+domCntr.addDomains(domains)
 # init domains controller
 
 # init command controller
@@ -51,14 +82,34 @@ cmdCtrl.addCommands(confCont.getComandsData())
 spPrep = SpeechPreprocessor(domCntr.getDomainsBatches())
 # init speech preprocessor
 
-# print(domCntr.findDomainCommandBySpeechStr(spPrep.processSpeech('test test1 testb testb')))
-
 spCntr = SpeechController(
     LogFiles.SPEECH_CONTROLLER_LOG_FILE,
     spPrep,
     domCntr,
     cmdCtrl
 )
+
+t2dU = Text2DictUtil(
+    LogFiles.UTILS_LOG_FILE,
+    'D:\\projects\\local_assistant\\3d_party\\ru4sphinx\\text2dict\\dict2transcript.pl',
+    pathResolver.getLocalDataStoragePath(),
+    pathResolver.getModelDictDir(),
+    confCont.getDictFile()
+)
+
+t2dU.setWordList(domCntr.getWordList())
+
+t2dU.setUp()
+t2dU.translate()
+
+gramGen = GarammarGenerator(
+    pathResolver.getGrammarFileDir(),
+    confCont.getGrammarFile(),
+    domCntr.rootDomain
+)
+
+# print(gramGen.batchesLineBuffer)
+gramGen.rebuild()
 
 spCntr.setDictFile(confCont.getDictFile())
 spCntr.setGrammarFile(confCont.getGrammarFile())

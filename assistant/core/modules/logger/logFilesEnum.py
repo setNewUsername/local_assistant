@@ -8,3 +8,4 @@ class LogFiles(Enum):
     DOMAIN_CONTROLLER_LOG_FILE = 'dom_cntr_log.log'
     COMMANDS_CONTROLLER_LOG_FILE = 'com_cntr_log.log'
     SPEECH_CONTROLLER_LOG_FILE = 'speech_log.log'
+    UTILS_LOG_FILE = 'utils_log.log'

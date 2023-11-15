@@ -31,7 +31,8 @@ class CommandController(LogClient):
     # calls command by uuid
     @logMethodToFile('calling command by id')
     def callCommandByUuid(self, uuid: str) -> None:
-        self.commands[uuid].execute()
+        if uuid != 'none' or None:
+            self.commands[uuid].execute()
     # calls command by uuid
 
     # creates command from command data by cmd type
