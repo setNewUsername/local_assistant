@@ -14,8 +14,8 @@ class SpeechPreprocessor:
                 endIndex = startIndex+len(batch)
                 speechStr = speechStr[:startIndex] + speechStr[startIndex:endIndex].replace(' ', '+') + speechStr[endIndex + 1:]
                 speechStr = speechStr[:startIndex] + f'"{speechStr[startIndex]}' + speechStr[startIndex + 1:]
-                speechStr = speechStr[:endIndex] + f'{speechStr[endIndex]}"' + speechStr[endIndex + 1:]
-
+                speechStr = speechStr[:endIndex] + f'{speechStr[endIndex]}" ' + speechStr[endIndex + 1:]
+        speechStr = speechStr.removesuffix(' ')
         speechStr = speechStr.replace(' ', '_')
 
         return speechStr

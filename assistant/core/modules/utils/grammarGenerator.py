@@ -2,9 +2,13 @@ import os
 
 from core.modules.domainController.speechDomain.speechDomain import SpeechDomain as SD
 
+from core.modules.logger.logFuncs import logMethodToFile
+from core.modules.logger.logFuncs import LogClient
 
-class GarammarGenerator:
 
+class GarammarGenerator(LogClient):
+
+    # used to share few counters between methods
     class Counter:
         curLevel = 0
         wordsBatchCount = 0
@@ -39,9 +43,12 @@ class GarammarGenerator:
     counter: Counter = None
 
     def __init__(self,
+                 logFile,
                  gramPath: str,
                  gramName: str,
                  rtDom: SD) -> None:
+        super().__init__(logFile)
+
         self.grammarFilePath = gramPath
         self.grammarFileName = gramName
         self.gramFileFullPath = os.path.join(self.grammarFilePath,
@@ -57,15 +64,19 @@ class GarammarGenerator:
     def checkFile(self) -> bool:
         return os.path.isfile(self.gramFileFullPath)
 
+    # recreates grammar file
+    @logMethodToFile('setting up file')
     def setupFile(self) -> None:
         with open(self.gramFileFullPath, 'w') as file:
             for line in self.gramFileHeaders:
                 file.write(line)
 
+    # returs string with wrapped words
+    # example: wrapMethodsLevel(0, ['test', 'test1'])
+    # result: public <lvl0> = ( test | test );
+    @logMethodToFile('wrap words from list')
     def wrapWordsLevel(self, level: int, words: list[str]) -> str:
-        result = 'public '
-
-        result += f'<lvl{level}> = ('
+        result = f'public <lvl{level}> = ('
 
         for word in words:
             tmp = word
@@ -81,6 +92,10 @@ class GarammarGenerator:
 
         return result
 
+    # returs string with wrapped words batch
+    # example: wrapMethodsLevel(0, ['test', 'test1'])
+    # result: public <btc0> = test test;
+    @logMethodToFile('construct word batch')
     def constructBatch(self, count: int, wordBatch: list[str]) -> str:
         result = f'public <btc{count}> = '
         for word in wordBatch:
@@ -89,6 +104,12 @@ class GarammarGenerator:
         result += ';\n'
         return result
 
+    # returs string with phrases
+    # example: wrapMethodsLevel(1, 1, 0)
+    # result: public <ph1> = <ph0> <lvl1>;
+    # example: wrapMethodsLevel(0, 0, None)
+    # result: public <ph0> = <lvl0>;
+    @logMethodToFile('construct phrase')
     def constructPhrase(self,
                         phLvl: int,
                         prevLvl: int,
@@ -99,6 +120,10 @@ class GarammarGenerator:
         result += f'<lvl{prevLvl}>;\n'
         return result
 
+    # returns line for all phrases wrapped
+    # example: constructPhraseLine(4)
+    # result: public<phrase> = ( <ph0> | <ph1> | <ph2> | <ph3> | <ph4> );
+    @logMethodToFile('construct phrase line')
     def constructPhraseLine(self, maxPhraseLevel: int) -> str:
         result = 'public <phrase> = ('
 
@@ -109,26 +134,29 @@ class GarammarGenerator:
 
         return result
 
+    # returns list with domain children's words
     def getDomainChildrenAsList(self, domain: SD) -> list[str]:
         result = []
 
         for chDom in domain.childrenDomainsPtrs:
             result.append(chDom.word)
-
+        self.innerLogToFile(f'return children domains {result}')
         return result
 
+    # returns domain level as list of words
     def constructDomLevel(self,
                           domains: list[SD],
                           curLvl: Counter) -> list[str]:
         result = []
-
+        tmp = []
         for dom in domains:
             if dom.childrenDomainsPtrs != []:
-                result.append(
-                    self.wrapWordsLevel(curLvl.getLevel(),
-                                        self.getDomainChildrenAsList(dom)))
+                tmp += self.getDomainChildrenAsList(dom)
+        result.append(self.wrapWordsLevel(curLvl.getLevel(), tmp))
+        self.innerLogToFile(f'return domain level {result}')
         return result
 
+    # returns list with next level domains
     def collectNextLvlDomains(self, domains: list[SD]) -> list[SD]:
         result = []
 
@@ -137,6 +165,7 @@ class GarammarGenerator:
 
         return result
 
+    # recursevly construct domain levels by root domain
     def constructDomTree(self,
                          domains: list[SD],
                          currentLevel: Counter) -> None:
@@ -148,6 +177,8 @@ class GarammarGenerator:
         else:
             return None
 
+    # starts constructing process
+    @logMethodToFile('construct grammar file from domains')
     def constructLinesByDomTree(self) -> None:
         self.lineBuffer.append(self.wrapWordsLevel(
                                 self.counter.getLevel(),
@@ -158,12 +189,16 @@ class GarammarGenerator:
         self.constructDomTree(self.rootDomain.childrenDomainsPtrs,
                               self.counter)
 
+    # constructs phrases
+    @logMethodToFile('construct phrases')
     def constructPhrases(self) -> None:
         self.lineBuffer.append(self.constructPhrase(0, 0, None))
         for i in range(1, self.counter.getLevel() + 1, 1):
             self.lineBuffer.append(self.constructPhrase(i, i, i - 1))
         self.lineBuffer.append(self.constructPhraseLine(self.counter.getLevel() + 1))
 
+    # initiates grammar file rebuild process
+    @logMethodToFile('starting grammar file rebuild')
     def rebuild(self) -> None:
         self.setupFile()
         self.constructLinesByDomTree()

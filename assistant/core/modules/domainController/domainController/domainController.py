@@ -90,16 +90,19 @@ class SpeechDomainsController(LogClient):
     # adds command uuid to result
 
     # recursevly checks speech str sequence
-    def checkDomainWord(self,
-                        domainId: str,
+    def findDomainByStr(self,
+                        domainsUuids: list[str],
                         tokens: list[str],
-                        nextWordId: int) -> str:
-        if nextWordId == len(tokens) - 1 and self.speechDomainsIdMap[domainId].word == tokens[nextWordId]:
-            return domainId
-        for chDomId in self.speechDomainsIdMap[domainId].childrenDomains:
-            res = self.checkDomainWord(chDomId, tokens, nextWordId + 1)
-            if res is not None:
-                return res
+                        currentIndex: int) -> SpeechDomain:
+        if currentIndex < len(tokens):
+            wordToCheck = tokens[currentIndex]
+            for uuid in domainsUuids:
+                if self.speechDomainsIdMap[uuid].word == wordToCheck:
+                    if currentIndex == len(tokens) - 1:
+                        return uuid
+                    return self.findDomainByStr(self.speechDomainsIdMap[uuid].childrenDomains,
+                                                tokens,
+                                                currentIndex + 1)
         return None
     # recursevly checks speech str sequence
 
@@ -108,16 +111,12 @@ class SpeechDomainsController(LogClient):
     def findDomainCommandBySpeechStr(self, spStr: str) -> str:
         result = None
         speechTokens = spStr.split('_')
-
+        print(speechTokens)
         for tokIndex in range(len(speechTokens)):
             speechTokens[tokIndex] = speechTokens[tokIndex].replace('"', '')
 
-        print(speechTokens)
-
-        result = self.checkDomainWord(self.rootDomain.domainUuid,
-                                      speechTokens,
-                                      0)
-
+        if speechTokens[0] == self.rootDomain.word:
+            result = self.findDomainByStr(self.rootDomain.childrenDomains, speechTokens, 1)
         return result
     # starts speech str sequence process
 
