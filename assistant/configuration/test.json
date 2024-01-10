@@ -1,0 +1,60 @@
+{
+    "commands": [
+        {
+            "uuid": "id1",
+            "type": "call_prog",
+            "prog_path": "notepad.exe",
+            "prog_args": [
+                "C:\\Users\\ANDMASL\\Desktop\\test.txt",
+                "test_arg_for_commnd_id1"
+            ]
+        },
+        {
+            "uuid": "id2",
+            "type": "sys_command",
+            "sys_command": [
+                "del /f C:\\Users\\ANDMASL\\Desktop\\test.txt",
+                "start chrome https://jut.su/vinland-saga/"
+            ]
+        },
+        {
+            "uuid": "id3",
+            "type": "call_prog",
+            "prog_path": "dota2.exe",
+            "prog_args": "C:\\Users\\ANDMASL\\Desktop\\dota2.exe",
+            "sys_command": "D:\\projects\\local_assistant\\assistant\\core\\system_utils\\media_control\\nircmd.exe mutesysvolume 1"
+        },
+        {
+            "uuid": "id4",
+            "type": "call_prog",
+            "prog_path": "dota3.exe",
+            "prog_args": "C:\\Users\\ANDMASL\\Desktop\\dota3.exe",
+            "sys_command": "D:\\projects\\local_assistant\\assistant\\core\\system_utils\\media_control\\nircmd.exe mutesysvolume 0"
+        },
+        {
+            "uuid": "id5",
+            "type": "sys_command",
+            "sys_command": "D:\\projects\\local_assistant\\assistant\\core\\system_utils\\media_control\\nircmd.exe changesysvolume -{proc15}"
+        },
+        {
+            "uuid": "id6",
+            "type": "sys_command",
+            "sys_command": "D:\\projects\\local_assistant\\assistant\\core\\system_utils\\media_control\\nircmd.exe changesysvolume {proc15}"
+        },
+        {
+            "uuid": "id7",
+            "type": "sys_command",
+            "sys_command": "D:\\projects\\local_assistant\\assistant\\core\\system_utils\\media_control\\nircmd.exe setdefaultsounddevice Р”РёРЅР°РјРёРєРё"
+        },
+        {
+            "uuid": "id8",
+            "type": "sys_command",
+            "sys_command": "D:\\projects\\local_assistant\\assistant\\core\\system_utils\\media_control\\nircmd.exe setdefaultsounddevice 5 - XV240Y P"
+        },
+        {
+            "uuid": "id9",
+            "type": "call_prog",
+            "prog_path": "H:\\SteamLibrary\\steamapps\\common\\dota 2 beta\\game\\bin\\win64\\dota2.exe"
+        }
+    ]
+}

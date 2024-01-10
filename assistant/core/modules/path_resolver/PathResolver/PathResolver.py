@@ -3,9 +3,14 @@ from pocketsphinx import get_model_path
 
 
 class PathResolver:
+    # data storage dirs
     dataStorageDirName: str = 'data_storage'
     localDataStorageDirName: str = 'local_storage'
     dbDataStorageDirName: str = 'db'
+
+    dbSQLDirName: str = 'sql_querries'
+    dbSQLCreateViewsDirName: str = 'create_views'
+    # data storage dirs
 
     logDirName: str = 'logs'
 
@@ -72,3 +77,15 @@ class PathResolver:
 
     def getModelPath(self) -> str:
         return get_model_path()
+
+    # returns full path of sql querries
+    # example: root dir -> D:\prj\local_projects\local_assistant\assistant\
+    # result: D:\prj\local_projects\local_assistant\assistant\data_storage\db\sql_querries
+    def getSQLQuerryDir(self) -> str:
+        return os.path.join(self.getDBDataStoragePath(), self.dbSQLDirName)
+
+    # returns full path of sql querries for view creation
+    # example: root dir -> D:\prj\local_projects\local_assistant\assistant\
+    # result: D:\prj\local_projects\local_assistant\assistant\data_storage\db\sql_querries\create_view
+    def getSQLCreateViewsDir(self) -> str:
+        return os.path.join(self.getSQLQuerryDir(), self.dbSQLCreateViewsDirName)

@@ -1,1 +1,117 @@
-{"lang_model": "ru", "model_files": "zero_ru.cd_cont_4000", "grammar_file": "grammar.jsgf", "dictionary_file": "dict.dic", "commands": [{"uuid": "id1", "type": "call_prog", "prog_path": "notepad.exe", "prog_args": ["C:\\Users\\ANDMASL\\Desktop\\test.txt"]}, {"uuid": "id2", "type": "sys_command", "sys_command": "del /f C:\\Users\\ANDMASL\\Desktop\\test.txt"}], "domains": [{"domain_word": "test", "parent_dom_uuid": "none", "domain_uuid": "111", "command_uuid": "none"}, {"domain_word": "test1", "parent_dom_uuid": "111", "domain_uuid": "112", "command_uuid": "none"}, {"domain_word": "test11", "parent_dom_uuid": "112", "domain_uuid": "113", "command_uuid": "none"}, {"domain_word": "testb+testb", "parent_dom_uuid": "112", "domain_uuid": "114", "command_uuid": "none"}, {"domain_word": "test0", "parent_dom_uuid": "111", "domain_uuid": "110", "command_uuid": "none"}]}
+{
+    "lang_model": "ru",
+    "model_files": "zero_ru.cd_cont_4000",
+    "grammar_file": "grammar.jsgf",
+    "dictionary_file": "dict.dic",
+    "commands": [
+        {
+            "uuid": "id1",
+            "type": "call_prog",
+            "prog_path": "notepad.exe",
+            "prog_args": [
+                "C:\\Users\\ANDMASL\\Desktop\\test.txt",
+                "test_arg_for_commnd_id1"
+            ]
+        },
+        {
+            "uuid": "id2",
+            "type": "sys_command",
+            "sys_command": "del /f C:\\Users\\ANDMASL\\Desktop\\test.txt"
+        },
+        {
+            "uuid": "id3",
+            "type": "call_prog",
+            "prog_path": "dota2.exe",
+            "prog_args": [
+                "C:\\Users\\ANDMASL\\Desktop\\dota2.exe"
+            ]
+        },
+        {
+            "uuid": "id4",
+            "type": "call_prog",
+            "prog_path": "dota3.exe",
+            "prog_args": [
+                "C:\\Users\\ANDMASL\\Desktop\\dota3.exe"
+            ]
+        },
+        {
+            "uuid": "id1",
+            "type": "call_prog",
+            "prog_path": "notepad.exe",
+            "prog_args": ["C:\\Users\\ANDMASL\\Desktop\\test.txt"]
+        },
+        {
+            "uuid": "id2",
+            "type": "sys_command",
+            "sys_command": "start chrome https://jut.su/vinland-saga/"
+        },
+        {
+            "uuid": "id3",
+            "type": "sys_command",
+            "sys_command": "D:\\projects\\local_assistant\\assistant\\core\\system_utils\\media_control\\nircmd.exe mutesysvolume 1"
+        },
+        {
+            "uuid": "id4",
+            "type": "sys_command",
+            "sys_command": "D:\\projects\\local_assistant\\assistant\\core\\system_utils\\media_control\\nircmd.exe mutesysvolume 0"
+        },
+        {
+            "uuid": "id5",
+            "type": "sys_command",
+            "sys_command": "D:\\projects\\local_assistant\\assistant\\core\\system_utils\\media_control\\nircmd.exe changesysvolume -{proc15}"
+        },
+        {
+            "uuid": "id6",
+            "type": "sys_command",
+            "sys_command": "D:\\projects\\local_assistant\\assistant\\core\\system_utils\\media_control\\nircmd.exe changesysvolume {proc15}"
+        },
+        {
+            "uuid": "id7",
+            "type": "sys_command",
+            "sys_command": "D:\\projects\\local_assistant\\assistant\\core\\system_utils\\media_control\\nircmd.exe setdefaultsounddevice Динамики"
+        },
+        {
+            "uuid": "id8",
+            "type": "sys_command",
+            "sys_command": "D:\\projects\\local_assistant\\assistant\\core\\system_utils\\media_control\\nircmd.exe setdefaultsounddevice 5 - XV240Y P"
+        },
+        {
+            "uuid": "id9",
+            "type": "call_prog",
+            "prog_path": "H:\\SteamLibrary\\steamapps\\common\\dota 2 beta\\game\\bin\\win64\\dota2.exe",
+            "prog_args": []
+        }
+    ],
+    "domains": [
+        {
+            "domain_word": "test",
+            "parent_dom_uuid": "none",
+            "domain_uuid": "111",
+            "command_uuid": "none"
+        },
+        {
+            "domain_word": "test1",
+            "parent_dom_uuid": "111",
+            "domain_uuid": "112",
+            "command_uuid": "none"
+        },
+        {
+            "domain_word": "test11",
+            "parent_dom_uuid": "112",
+            "domain_uuid": "113",
+            "command_uuid": "none"
+        },
+        {
+            "domain_word": "testb+testb",
+            "parent_dom_uuid": "112",
+            "domain_uuid": "114",
+            "command_uuid": "none"
+        },
+        {
+            "domain_word": "test0",
+            "parent_dom_uuid": "111",
+            "domain_uuid": "110",
+            "command_uuid": "none"
+        }
+    ]
+}

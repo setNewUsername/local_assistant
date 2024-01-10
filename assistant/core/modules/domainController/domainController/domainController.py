@@ -111,7 +111,6 @@ class SpeechDomainsController(LogClient):
     def findDomainCommandBySpeechStr(self, spStr: str) -> str:
         result = None
         speechTokens = spStr.split('_')
-        print(speechTokens)
         for tokIndex in range(len(speechTokens)):
             speechTokens[tokIndex] = speechTokens[tokIndex].replace('"', '')
 

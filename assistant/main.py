@@ -147,12 +147,12 @@ domains = [
         'command_uuid': 'id7'
     },
 ]
-domCntr = SpeechDomainsController(LogFiles.DOMAIN_CONTROLLER_LOG_FILE)
-print(confCont.getDomainsData())
-domCntr.addDomains(domains)
-confCont.updateDomainsData(domCntr.serializeDomains())
-print(confCont.getDomainsData())
-# init domains controller
+# domCntr = SpeechDomainsController(LogFiles.DOMAIN_CONTROLLER_LOG_FILE)
+# print(confCont.getDomainsData())
+# domCntr.addDomains(domains)
+# confCont.updateDomainsData(domCntr.serializeDomains())
+# print(confCont.getDomainsData())
+# # init domains controller
 
 commands = [
     {
@@ -204,51 +204,79 @@ commands = [
     }
 ]
 
-# init command controller
-cmdCtrl = CommandController(LogFiles.COMMANDS_CONTROLLER_LOG_FILE)
-print(confCont.getComandsData())
-cmdCtrl.addCommands(commands)
-# init command controller
+# # init command controller
+# cmdCtrl = CommandController(LogFiles.COMMANDS_CONTROLLER_LOG_FILE)
+# print(confCont.getComandsData())
+# cmdCtrl.addCommands(commands)
+# # init command controller
 
-# init speech preprocessor
-spPrep = SpeechPreprocessor(domCntr.getDomainsBatches())
-# init speech preprocessor
+# # init speech preprocessor
+# spPrep = SpeechPreprocessor(domCntr.getDomainsBatches())
+# # init speech preprocessor
 
-spCntr = SpeechController(
-    LogFiles.SPEECH_CONTROLLER_LOG_FILE,
-    spPrep,
-    domCntr,
-    cmdCtrl
-)
+# spCntr = SpeechController(
+#     LogFiles.SPEECH_CONTROLLER_LOG_FILE,
+#     spPrep,
+#     domCntr,
+#     cmdCtrl
+# )
 
-t2dU = Text2DictUtil(
-    LogFiles.UTILS_LOG_FILE,
-    'D:\\projects\\local_assistant\\3d_party\\ru4sphinx\\text2dict\\dict2transcript.pl',
-    pathResolver.getLocalDataStoragePath(),
-    pathResolver.getModelDictDir(),
-    confCont.getDictFile()
-)
+# t2dU = Text2DictUtil(
+#     LogFiles.UTILS_LOG_FILE,
+#     'D:\\projects\\local_assistant\\3d_party\\ru4sphinx\\text2dict\\dict2transcript.pl',
+#     pathResolver.getLocalDataStoragePath(),
+#     pathResolver.getModelDictDir(),
+#     confCont.getDictFile()
+# )
 
-t2dU.setWordList(domCntr.getWordList())
+# t2dU.setWordList(domCntr.getWordList())
 
-t2dU.setUp()
-t2dU.translate()
+# t2dU.setUp()
+# t2dU.translate()
 
-gramGen = GarammarGenerator(
-    LogFiles.UTILS_LOG_FILE,
-    pathResolver.getGrammarFileDir(),
-    confCont.getGrammarFile(),
-    domCntr.rootDomain
-)
+# gramGen = GarammarGenerator(
+#     LogFiles.UTILS_LOG_FILE,
+#     pathResolver.getGrammarFileDir(),
+#     confCont.getGrammarFile(),
+#     domCntr.rootDomain
+# )
 
-gramGen.rebuild()
+# gramGen.rebuild()
 
-spCntr.setDictFile(confCont.getDictFile())
-spCntr.setGrammarFile(confCont.getGrammarFile())
-spCntr.setModelFiles(confCont.getModelFiles())
-spCntr.setLang(confCont.getLanguageModel())
+# spCntr.setDictFile(confCont.getDictFile())
+# spCntr.setGrammarFile(confCont.getGrammarFile())
+# spCntr.setModelFiles(confCont.getModelFiles())
+# spCntr.setLang(confCont.getLanguageModel())
 
-spCntr.startListening()
+# spCntr.startListening()
 
+from peewee import *
+import core.models.sp_domains_models as dom
+import core.models.commands_models as com
+
+from core.modules.logger.logFilesEnum import LogFiles
+from core.modules.databaseConnectionRunner.dbConnRunner import dbConnRunnerPGSQL
+from core.modules.modelsController.modelsController import ModelsController
+
+from core.modules.modelsController.viewsController import ViewsController
+from core.modules.modelsController.viewsController import DBViewEnum
+
+dbconn = dbConnRunnerPGSQL(LogFiles.DB_CONN_RUNNER, pathResolver.getDBDataStoragePath(), 'postgre_sql_connect.json')
+conn = dbconn.connectToDb()
+
+vcon = ViewsController(conn, pathResolver.getSQLCreateViewsDir())
+vcon.createCommandsFullDataView()
+
+mw = ModelsController(LogFiles.TEST_LOG_FILE, confCont, vcon)
+
+# create commands tables
+mw.createTables([com.CommandType, com.CommandTypesFields, com.CommandFieldsData, com.Command, com.CommandsData], conn)
+
+mw.createTables([dom.Domain, dom.DomainsRel], conn)
+
+mw.transferFromJSONtoDB(conn)
+mw.transferFromDBtoJSON()
+
+dbconn.disconnect()
 logger.unregisterLogFiles()
 logger.closeCommonLogFile()
