@@ -3,6 +3,7 @@ from core.modules.logger.logFuncs import LogClient
 from core.modules.logger.logFuncs import logMethodToFile
 from core.modules.configurationController.configurationController.configurationController import ConfigController
 import core.models.commands_models as com
+import core.models.sp_domains_models as dom
 from core.modules.modelsController.viewsController import ViewsController
 
 
@@ -39,13 +40,22 @@ class ModelsController(LogClient):
         for comDat in commandsData:
             com.CommandType.fromJSONtoDB(comDat, dataBase)
 
+        domainsData = self.confCont.getDomainsData()
+        for domDat in domainsData:
+            dom.Domain.fromJSONtoDB(domDat, dataBase)
+
     def transferFromDBtoJSON(self) -> dict:
         result = {
-            'commands': []
+            'commands': [],
+            'domains': []
         }
         # collect commands data
         cmds = com.Command.select(com.Command.command_uuid)
         for uuid in [row.command_uuid for row in cmds]:
             result['commands'].append(com.Command.fromDBtoJSON(uuid, self.viewsCont))
+
+        doms = dom.Domain.select(dom.Domain.domain_uuid)
+        for uuid in [row.domain_uuid for row in doms]:
+            result['domains'].append(dom.Domain.fromDBtoJSON(uuid, self.viewsCont))
 
         return result

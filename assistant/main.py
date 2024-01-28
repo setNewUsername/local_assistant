@@ -264,18 +264,18 @@ from core.modules.modelsController.viewsController import DBViewEnum
 dbconn = dbConnRunnerPGSQL(LogFiles.DB_CONN_RUNNER, pathResolver.getDBDataStoragePath(), 'postgre_sql_connect.json')
 conn = dbconn.connectToDb()
 
-vcon = ViewsController(conn, pathResolver.getSQLCreateViewsDir())
-vcon.createCommandsFullDataView()
-
-mw = ModelsController(LogFiles.TEST_LOG_FILE, confCont, vcon)
-
+vcon = ViewsController(conn, pathResolver.getSQLCreateViewsDir(), LogFiles.DB_VIEW_CONTROLLER)
+mw = ModelsController(LogFiles.MODELS_CONTROLLER, confCont, vcon)
 # create commands tables
 mw.createTables([com.CommandType, com.CommandTypesFields, com.CommandFieldsData, com.Command, com.CommandsData], conn)
-
 mw.createTables([dom.Domain, dom.DomainsRel], conn)
+# create commands tables
+# create views
+vcon.createViewFromSQLFiles()
+# create views
 
 mw.transferFromJSONtoDB(conn)
-mw.transferFromDBtoJSON()
+print(mw.transferFromDBtoJSON())
 
 dbconn.disconnect()
 logger.unregisterLogFiles()

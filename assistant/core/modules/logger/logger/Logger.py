@@ -86,7 +86,7 @@ class Logger:
 
     # writes data to log file
     # example:
-    # no_coller.no_function({'no_arg': 'no_arg'}) 13:24:52 - hello world
+    # no_caller.no_function({'no_arg': 'no_arg'}) 13:24:52 - hello world
     def logToLogFile(self,
                      logFileName: LogFiles,
                      logText: str,
@@ -97,16 +97,13 @@ class Logger:
 
         collerArgsStr = f'{coller}.{functionName}({args}, {kwargs})'
         date = datetime.now().strftime("%H:%M:%S")
-        if self.logFilesDescriptors[logFileName]:
-            self.logFilesDescriptors[logFileName].write(
-                f'{date} {collerArgsStr} - {logText}\n')
-        self.commonLogFileDescriptor.write(
-            f'{date} {collerArgsStr} - {logText}\n')
+        if logFileName in self.logFilesDescriptors:
+            self.logFilesDescriptors[logFileName].write(f'{date} {collerArgsStr} - {logText}\n')
+        else:
+            self.commonLogFileDescriptor.write(f'{date} {collerArgsStr} - Unable to find log file enum {logFileName.value}; check file registration?\n')
+        self.commonLogFileDescriptor.write(f'{date} {collerArgsStr} - {logText}\n')
 
-        self.logToConsole(logText,
-                          coller=coller,
-                          functionName=functionName,
-                          args=args)
+        self.logToConsole(logText, coller=coller, functionName=functionName, args=args)
     # writes data to log file
 
     # writes data to console

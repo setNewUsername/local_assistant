@@ -9,4 +9,6 @@ class LogFiles(Enum):
     COMMANDS_CONTROLLER_LOG_FILE = 'com_cntr_log.log'
     SPEECH_CONTROLLER_LOG_FILE = 'speech_log.log'
     UTILS_LOG_FILE = 'utils_log.log'
+    DB_VIEW_CONTROLLER = 'db_view_controller.log'
     DB_CONN_RUNNER = 'db_conn_runner.log'
+    MODELS_CONTROLLER = 'models_controller.log'
