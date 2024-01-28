@@ -1,7 +1,5 @@
 import peewee
-from peewee import Model
 from core.models.modeInterface import ModelInterface
-from core.modules.modelsController.viewsController import ViewsController, DBViewEnum
 
 
 class Configuration(peewee.Model, ModelInterface):

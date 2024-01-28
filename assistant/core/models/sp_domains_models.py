@@ -23,7 +23,7 @@ class Domain(peewee.Model, ModelInterface):
                                              jsonData['domain_uuid'],
                                              domain_uuid=jsonData['domain_uuid'],
                                              command=commandObj,
-                                             domain_word=jsonData['domain_word'])
+                                             domain_word=jsonData['domain_word'].encode('cp1251'))
         # not strict adding skip
         parentDom = Domain.get_or_none(Domain.domain_uuid == jsonData['parent_dom_uuid'])
         DomainsRel.fromJSONtoDB(newDomain, parentDom)
@@ -38,7 +38,8 @@ class Domain(peewee.Model, ModelInterface):
         for row in dbData:
             result['domain_word'] = row[1]
             result['parent_dom_uuid'] = row[3]
-            result['command_uuid'] = row[0]
+            command = com.Command.get_or_none(id=row[0])
+            result['command_uuid'] = None if command is None else command.command_uuid
         return result
 
 

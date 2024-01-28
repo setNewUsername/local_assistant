@@ -25,6 +25,14 @@ class ConfigController(LogClient):
         self.confgigurationDirPath = cfgDirPath
         self.configData = {}
 
+    @logMethodToFile('check database config layout; use it if correct')
+    def setConfigDataToDBConfig(self, confData: dict) -> None:
+        if self.checkConfigFileLayout(confData):
+            self.innerLogToFile('correct; use database configuration')
+            self.configData = confData
+        else:
+            self.innerLogToFile('corrupted; use local saved configuration')
+
     # checks for config file existence
     def checkConfigFile(self) -> bool:
         return os.path.isfile(os.path.join(self.confgigurationDirPath,

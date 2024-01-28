@@ -84,34 +84,106 @@
     ],
     "domains": [
         {
-            "domain_word": "test",
+            "domain_word": "компьютер",
             "parent_dom_uuid": "none",
-            "domain_uuid": "111",
-            "command_uuid": "none"
-        },
-        {
-            "domain_word": "test1",
-            "parent_dom_uuid": "111",
-            "domain_uuid": "112",
-            "command_uuid": "none"
-        },
-        {
-            "domain_word": "test11",
-            "parent_dom_uuid": "112",
-            "domain_uuid": "113",
-            "command_uuid": "none"
-        },
-        {
-            "domain_word": "testb+testb",
-            "parent_dom_uuid": "112",
-            "domain_uuid": "114",
-            "command_uuid": "none"
-        },
-        {
-            "domain_word": "test0",
-            "parent_dom_uuid": "111",
             "domain_uuid": "110",
             "command_uuid": "none"
+        },
+        {
+            "domain_word": "запусти",
+            "parent_dom_uuid": "110",
+            "domain_uuid": "115",
+            "command_uuid": "none"
+        },
+        {
+            "domain_word": "дота два",
+            "parent_dom_uuid": "115",
+            "domain_uuid": "130",
+            "command_uuid": "id9"
+        },
+        {
+            "domain_word": "блокнот",
+            "parent_dom_uuid": "115",
+            "domain_uuid": "116",
+            "command_uuid": "id1"
+        },
+        {
+            "domain_word": "аниме",
+            "parent_dom_uuid": "115",
+            "domain_uuid": "117",
+            "command_uuid": "none"
+        },
+        {
+            "domain_word": "Сага о винленде",
+            "parent_dom_uuid": "117",
+            "domain_uuid": "118",
+            "command_uuid": "id2"
+        },
+        {
+            "domain_word": "убавь",
+            "parent_dom_uuid": "110",
+            "domain_uuid": "123",
+            "command_uuid": "none"
+        },
+        {
+            "domain_word": "звук на пятнадцать процентов",
+            "parent_dom_uuid": "123",
+            "domain_uuid": "125",
+            "command_uuid": "id5"
+        },
+        {
+            "domain_word": "прибавь",
+            "parent_dom_uuid": "110",
+            "domain_uuid": "124",
+            "command_uuid": "none"
+        },
+        {
+            "domain_word": "звук на пятнадцать процентов",
+            "parent_dom_uuid": "124",
+            "domain_uuid": "126",
+            "command_uuid": "id6"
+        },
+        {
+            "domain_word": "выключи",
+            "parent_dom_uuid": "110",
+            "domain_uuid": "119",
+            "command_uuid": "none"
+        },
+        {
+            "domain_word": "звук",
+            "parent_dom_uuid": "119",
+            "domain_uuid": "121",
+            "command_uuid": "id3"
+        },
+        {
+            "domain_word": "включи",
+            "parent_dom_uuid": "110",
+            "domain_uuid": "120",
+            "command_uuid": "none"
+        },
+        {
+            "domain_word": "звук",
+            "parent_dom_uuid": "120",
+            "domain_uuid": "122",
+            "command_uuid": "id4"
+        },
+        {
+            "domain_word": "переключи звук на",
+            "parent_dom_uuid": "110",
+            "domain_uuid": "127",
+            "command_uuid": "none"
+        },
+        {
+            "domain_word": "динамики",
+            "parent_dom_uuid": "127",
+            "domain_uuid": "128",
+            "command_uuid": "id8"
+        },
+        {
+            "domain_word": "наушники",
+            "parent_dom_uuid": "127",
+            "domain_uuid": "129",
+            "command_uuid": "id7"
         }
     ]
 }

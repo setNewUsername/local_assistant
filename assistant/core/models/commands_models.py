@@ -55,6 +55,8 @@ class CommandFieldsData(peewee.Model, ModelInterface):
         # transfer string to list
         if type(data) is not list:
             data = [data]
+        if data == []:
+            data.append('')
         # check count for all of list members
         for dat in data:
             checkData: peewee.ModelSelect = CommandFieldsData.select().where(CommandFieldsData.command_type_field == fgKey.get_id(), CommandFieldsData.field_data == dat)
