@@ -4,6 +4,7 @@ from core.modules.logger.logFuncs import logMethodToFile
 from core.modules.configurationController.configurationController.configurationController import ConfigController
 import core.models.commands_models as com
 import core.models.sp_domains_models as dom
+import core.models.configuration as conf
 from core.modules.modelsController.viewsController import ViewsController
 
 
@@ -44,6 +45,14 @@ class ModelsController(LogClient):
         for domDat in domainsData:
             dom.Domain.fromJSONtoDB(domDat, dataBase)
 
+        config = {
+            "lang_model": self.confCont.getLanguageModel(),
+            "model_files": self.confCont.getModelFiles(),
+            "grammar_file": self.confCont.getGrammarFile(),
+            "dictionary_file": self.confCont.getDictFile(),
+        }
+        conf.Configuration.fromJSONtoDB(config)
+
     def transferFromDBtoJSON(self) -> dict:
         result = {
             'commands': [],
@@ -54,8 +63,13 @@ class ModelsController(LogClient):
         for uuid in [row.command_uuid for row in cmds]:
             result['commands'].append(com.Command.fromDBtoJSON(uuid, self.viewsCont))
 
+        # colect domains data
         doms = dom.Domain.select(dom.Domain.domain_uuid)
         for uuid in [row.domain_uuid for row in doms]:
             result['domains'].append(dom.Domain.fromDBtoJSON(uuid, self.viewsCont))
+
+        # collect config data TODO: make it right
+        config = conf.Configuration.fromDBtoJSON()
+        result.update(config)
 
         return result

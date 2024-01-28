@@ -253,6 +253,7 @@ commands = [
 from peewee import *
 import core.models.sp_domains_models as dom
 import core.models.commands_models as com
+import core.models.configuration as conf
 
 from core.modules.logger.logFilesEnum import LogFiles
 from core.modules.databaseConnectionRunner.dbConnRunner import dbConnRunnerPGSQL
@@ -269,6 +270,7 @@ mw = ModelsController(LogFiles.MODELS_CONTROLLER, confCont, vcon)
 # create commands tables
 mw.createTables([com.CommandType, com.CommandTypesFields, com.CommandFieldsData, com.Command, com.CommandsData], conn)
 mw.createTables([dom.Domain, dom.DomainsRel], conn)
+mw.createTables([conf.Configuration], conn)
 # create commands tables
 # create views
 vcon.createViewFromSQLFiles()
